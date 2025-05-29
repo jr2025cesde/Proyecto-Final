@@ -1,29 +1,25 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 import mysql.connector
 import matplotlib.pyplot as plt
 import os
-from dotenv import load_dotenv
-
-# Cargar variables de entorno desde .env
-load_dotenv()
 
 app = Flask(__name__)
 
-# Conexión a la base de datos usando variables de entorno
+# La conexión a la base de datos de nuestro MySQL
 conexion = mysql.connector.connect(
-    host=os.environ.get("DB_HOST", "localhost"),
-    user=os.environ.get("DB_USER", "root"),
-    password=os.environ.get("DB_PASSWORD", "admin"),
-    database=os.environ.get("DB_NAME", "encuesta_tecnologia")
+    host="localhost",
+    user="root",
+    password="admin",
+    database="encuesta_tecnologia"
 )
 cursor = conexion.cursor()
 
-# Ruta principal
+# La ruta principal donde nos muestra el encuesta.
 @app.route('/')
-def encuesta():
+def Encuesta():
     return render_template('Encuesta.html')
 
-# Ruta para procesar la encuesta
+# La ruta para procesar nuestra encuesta.
 @app.route('/enviar', methods=['POST'])
 def enviar():
     nombre = request.form['nombre']
@@ -36,12 +32,8 @@ def enviar():
     comentario = request.form['comentario']
 
     consulta = """
-        INSERT INTO respuestas (
-            nombre, edad, direccion,
-            sistema_operativo, red_social_preferida,
-            usa_nube, frecuencia_compra, comentario
-        )
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    INSERT INTO respuestas (nombre, edad, direccion, sistema_operativo, red_social_preferida, usa_nube, frecuencia_compra, comentario)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     """
     datos = (nombre, edad, direccion, sistema_operativo, red_social, nube, frecuencia, comentario)
     cursor.execute(consulta, datos)
@@ -49,7 +41,7 @@ def enviar():
 
     return render_template('gracias.html')
 
-# Ruta de estadísticas
+# la ruta para mostrar la estadística de mi encuesta.
 @app.route('/estadisticas')
 def estadisticas():
     cursor.execute("SELECT sistema_operativo FROM respuestas")
@@ -62,6 +54,7 @@ def estadisticas():
     sistemas = list(conteo.keys())
     valores = list(conteo.values())
 
+    # Aquí nos crea el gráfico de la encuesta.
     plt.bar(sistemas, valores, color="skyblue")
     plt.title("Sistema Operativo más Usado")
     plt.xlabel("Sistema Operativo")

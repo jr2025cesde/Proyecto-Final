@@ -25,9 +25,14 @@ body {
     color: white;
 }
 
-h1, h2 {
+h1 {
     color: #00BFFF; 
     margin-bottom: 20px; 
+}
+
+h2 {
+    color: #ffffff; 
+    margin-bottom: 20px;
 }
 
 a.button, .form-container button {
