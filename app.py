@@ -1,16 +1,20 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request
 import mysql.connector
 import matplotlib.pyplot as plt
 import os
+from dotenv import load_dotenv
+
+# Cargar variables de entorno desde .env
+load_dotenv()
 
 app = Flask(__name__)
 
-# Conexión a la base de datos
+# Conexión a la base de datos usando variables de entorno
 conexion = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="admin",
-    database="encuesta_tecnologia"
+    host=os.environ.get("DB_HOST", "localhost"),
+    user=os.environ.get("DB_USER", "root"),
+    password=os.environ.get("DB_PASSWORD", "admin"),
+    database=os.environ.get("DB_NAME", "encuesta_tecnologia")
 )
 cursor = conexion.cursor()
 
@@ -24,7 +28,7 @@ def encuesta():
 def enviar():
     nombre = request.form['nombre']
     edad = request.form['edad']
-    direccion = request.form['direccion']  # Sin tilde
+    direccion = request.form['direccion']
     sistema_operativo = request.form['sistema_operativo']
     red_social = request.form['red_social']
     nube = request.form['usa_nube']
@@ -32,8 +36,12 @@ def enviar():
     comentario = request.form['comentario']
 
     consulta = """
-    INSERT INTO respuestas (nombre, edad, direccion, sistema_operativo, red_social_preferida, usa_nube, frecuencia_compra, comentario)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO respuestas (
+            nombre, edad, direccion,
+            sistema_operativo, red_social_preferida,
+            usa_nube, frecuencia_compra, comentario
+        )
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     """
     datos = (nombre, edad, direccion, sistema_operativo, red_social, nube, frecuencia, comentario)
     cursor.execute(consulta, datos)
