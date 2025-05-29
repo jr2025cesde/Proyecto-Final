@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Estadísticas de la Encuesta</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Estadísticas de la Encuesta</h1>
+        <img src="{{ url_for('static', filename='grafico.png') }}" alt="Gráfico de Sistemas Operativos" class="grafico">
+        <a href="{{ url_for('Encuesta') }}" class="button">Volver a la Encuesta</a>
+    </div>
+</body>
+</html>

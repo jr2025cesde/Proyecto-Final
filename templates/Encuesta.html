@@ -1,0 +1,51 @@
+<!DOCTYPE html> 
+<html>
+<head>
+    <title>Encuesta de Tecnología</title> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+    <form action="/enviar" method="POST" class="form-container">
+
+        <h2>Encuesta de Tecnología</h2> 
+        <input type="text" name="nombre" placeholder="Nombre" required>
+        <input type="number" name="edad" placeholder="Edad" min="1" max="120" required>
+        <input type="text" name="direccion" placeholder="dirección" required>
+
+        <select name="sistema_operativo" required>
+            <option value="">¿Sistema Operativo más usado?</option>
+            <option value="Windows">Windows</option>
+            <option value="Linux">Linux</option>
+            <option value="macOS">macOS</option>
+            <option value="Android">Android</option>
+            <option value="iOS">iOS</option>
+        </select>
+
+        <select name="red_social" required>
+            <option value="">¿Red Social Preferida?</option>
+            <option value="Facebook">Facebook</option>
+            <option value="Instagram">Instagram</option>
+            <option value="TikTok">TikTok</option>
+            <option value="Twitter">X (Twitter)</option>
+            <option value="Ninguna">Ninguna</option>
+        </select>
+
+        <select name="usa_nube" required>
+            <option value="">¿Usas servicios en la nube?</option>
+            <option value="sí">Sí</option>
+            <option value="no">No</option>
+        </select>
+
+        <select name="frecuencia" required>
+            <option value="">¿Frecuencia de compra de tecnología?</option>
+            <option value="mensual">Mensual</option>
+            <option value="anual">Anual</option>
+            <option value="casi nunca">Casi nunca</option>
+        </select>
+
+        <textarea name="comentario" placeholder="Comentario adicional (opcional)" rows="4"></textarea>
+
+        <button type="submit">Enviar Encuesta</button>
+    </form>
+</body>
+</html>
